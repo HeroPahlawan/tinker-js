@@ -1,0 +1,26 @@
+{
+  "c_user": {
+    "structure": {
+      "username": "String",
+      "password": "String",
+      "name":"String",
+      "email":"String"
+    },
+    "data": [
+      { "username": "root", "password": "$2a$12$AnHFd4XjlZTbCe4nSZqq2uNl5qO9XmDZDNXuvVoR9PKViZiEoZl7u", "name": "SuperUser", "email": "it@ias.id" }
+    ]
+  },
+  "m_branch": {
+    "structure": {
+      "branch_code": "String",
+      "region": "String",
+      "lob":"String",
+      "name":"String",
+      "email":"String",
+      "phone":"Number"
+    },
+    "data": [
+      { "branch_code": "IHO", "region": "0", "lob":"Head Office", "name": "IAS Head Office", "email": "it@ias.id", "phone":"021123456" }
+    ]
+  }
+}

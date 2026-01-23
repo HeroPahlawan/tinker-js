@@ -1,0 +1,140 @@
+<script setup>
+  import { navTitle } from "~/stores/mystore";
+  onMounted(()=>{ navTitle().name = 'Master Employee'; });
+</script>
+
+<template>
+  <div id="mytable"></div>
+
+  <Modal id="myModal" title="Employee data">
+    <form id="myForm">
+      <Input type="text" name="_id" label="Id" style="display:none;"/>
+      <Input type="text" name="nik" label="No. Induk karyawan" />
+      <Input type="text" name="no_ktp" label="No. Kartu Identitas (KTP/SIM)" />
+      <Input type="text" name="no_passport" label="No. Passport" />
+      <Input type="text" name="name" label="Nama" />
+      <Input type="text" name="tgl_lahir" label="Tanggal Lahir" />
+      <Input type="text" name="division" label="Divisi" />
+      <Input type="email" name="email" label="e-mail" />
+      <Input type="phone" name="phone" label="Telepon/HP" />
+    </form>
+    <div class="flex flex-wrap items-center justify-end">
+      <button type="button" class="ml-1 btn-primary" @click="save_form()">
+        <i class="fa-solid fa-save fa-xl mr-2"></i>
+        Submit
+      </button>
+      <button type="button" class="ml-1 btn-danger" @click="del_record()">
+        <i class="fa-solid fa-close fa-xl mr-2"></i>
+        Delete
+      </button>
+    </div>
+  </Modal>
+</template>
+
+<script>
+  export default {
+    data:()=>({
+      xdt:'',myModal:'',alert:''
+    }),
+    async mounted(){
+      try {
+        const { Modal,initTE } = await import('tw-elements');
+        initTE({ Modal });
+        this.myModal = new Modal(document.getElementById('myModal'), {});
+        this.alert = await alert();
+
+        this.xdt = await datatable('mytable');
+        this.xdt.init({
+          title: 'Manage Employee Data',
+          url: `/api/master/employee`,
+          columns: [
+            { label: 'Nama', field: 'name' },
+            { label: 'Divisi', field: 'division' },
+            { label: 'e-mail', field: 'email' },
+            { label: 'NIK', field: 'nik' },
+            { label: 'No. Identitas', field: 'no_ktp' },
+            { label: 'Tanggal Lahir', field: 'tgl_lahir' },
+            { label: 'No. Passport', field: 'no_passport' },
+            { label: 'Create By', field: 'createBy' },
+            { label: 'Create Date', field: 'createDate' },
+            { label: 'Edit By', field: 'editBy' },
+            { label: 'Edit Date', field: 'editDate' },
+            { label: 'ID', field: '_id' },
+          ],
+          order:['code','asc'],
+          actions: [
+            {label: '<i class="fa-solid fa-plus"></i>', onclick:()=>{
+              for(const[k,v] of Object.entries(dataForm('myForm'))){
+                let el = document.getElementById(k);
+                if(el!=null){ document.getElementById(k).value = ''; }
+              }
+              this.myModal.toggle();
+            }}
+          ],
+          onRowclick:(x)=>{
+            for(const[k,v] of Object.entries(x)){
+              let el = document.getElementById(k);
+              if(el!=null){
+                if(el.tagName == 'SELECT'){
+                  Select.getInstance(el).setValue(v);
+                }else{
+                  el.value = v;
+                }
+              }
+            }
+            this.myModal.toggle();
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    methods:{
+      async save_form(){
+        loading(true);
+        try {
+          let obj = dataForm('myForm');
+          let res = '';
+          if(obj._id == ""){
+            res = await call.post(`/api/master/employee`, obj);
+          }else{
+            res = await call.patch(`/api/master/employee/${obj._id}`, obj);
+          }
+
+          if(res.status.code == 200){
+            this.alert.success('Save successfully');
+          }else{
+            this.alert.error(res.status.message);
+          }
+          this.xdt.reload();
+          this.myModal.toggle();
+        } catch (err) {
+          this.alert.error(err);
+          this.myModal.toggle();
+        }
+        loading(false);
+      },
+      async del_record(){
+        if (confirm('Hapus data ?')) {
+          loading(true);
+          try {
+            let obj = dataForm('myForm');
+            let res = '';
+            res = await call.delete(`/api/master/employee/${obj._id}`);
+            if(res.status.code == 200){
+              this.alert.success('Deleted successfully');
+            }else{
+              this.alert.error(res.status.message);
+            }
+            this.xdt.reload();
+            this.myModal.toggle();
+          } catch (err) {
+            this.alert.error(err);
+            this.myModal.toggle();
+          }
+          loading(false);
+        }
+      }
+    }
+  }
+</script>

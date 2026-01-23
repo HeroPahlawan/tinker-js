@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo:*)",
+      "Bash(\"C:\\Users\\apkbo\\Documents\\Development\\inshopper\\assets\\css\\main.css\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

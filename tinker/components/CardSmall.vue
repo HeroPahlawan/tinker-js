@@ -1,0 +1,28 @@
+
+<template>
+    <div class="block max-w-[18rem] rounded-lg bg-white shadow-secondary-1 shadow-lg dark:bg-surface-dark dark:text-white text-surface">
+        <div class="p-6">
+            <div class="flex flex-items items-center">
+                <i class='fa-solid fa-star fa-xl mb-2'></i> <h5 class="mb-2 ml-2 text-xl font-medium leading-tight">{{ title }}</h5>
+            </div>
+            <button v-if="prompt && prompt.trim()"
+            type="button"
+            :href="href"
+            class="inline-block btn-sm rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+            data-twe-ripple-init
+            data-twe-ripple-color="light">
+            {{ prompt }}
+            </button>
+        </div>
+    </div>
+</template>
+
+<script>
+  export default {
+    props: ['title','href','prompt'],
+    async mounted(){
+      const { Input, initTE } = await import("tw-elements");
+      initTE({ Input }, { allowReinits: true });
+    }
+  }
+</script>
