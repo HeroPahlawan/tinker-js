@@ -57,11 +57,11 @@ Tinker-JS aims to democratize application development by providing:
 - **Database**: MongoDB with Mongoose ODM
 - **Styling**: TailwindCSS
 
-## Implemented Features
+## Features In Development
 
 ### Dynamic Database Auto-Generation
 
-A core low-code feature already implemented in `tinker_api/model/crud.mjs`. This module provides schema-less, dynamic MongoDB model generation.
+A core low-code feature in development at `tinker_api/model/crud.mjs`. This module provides schema-less, dynamic MongoDB model generation.
 
 **How it works:**
 
@@ -120,7 +120,7 @@ await crud.insert('orders', { item: 'Widget', qty: 5, price: 99.99 });
 
 ### ERD-Based Schema Generation
 
-A complementary feature for typed database initialization using JSON schema definitions.
+A complementary feature in development for typed database initialization using JSON schema definitions.
 
 **Schema Definition File:** `tinker/erd.json`
 
@@ -189,11 +189,61 @@ curl -X POST http://localhost:3000/api/createdb
 
 ---
 
+### CLI Commands (Commander.js) ✓
+
+The CLI foundation is implemented in `commander/tinker.js` using Commander.js.
+
+**Current Version:** `0.8.0`
+
+**Implemented Commands:**
+
+| Command | Description |
+|---------|-------------|
+| `tinker generate <projectName>` | Scaffold a new Nuxt+Express project |
+| `tinker createdb <dbname> <values>` | Create MongoDB database via API |
+
+**`tinker generate` - Project Scaffolding:**
+
+```bash
+# Generate a new project called "my-app"
+tinker generate my-app
+```
+
+What it does:
+1. Clones the Nuxt+Express template from GitHub
+2. Copies project to user's Documents folder
+3. Ready-to-use full-stack application
+
+**`tinker createdb` - Database Creation:**
+
+```bash
+# Create a new database with values
+tinker createdb myDatabase "values"
+```
+
+What it does:
+1. Sends POST request to `/api/createdb` endpoint
+2. Creates MongoDB collections based on ERD schema
+3. Seeds initial data
+
+**CLI Source:** `commander/tinker.js`
+
+```javascript
+const program = new Command();
+
+program
+  .name('tinker')
+  .description('Your tinker developer at your service')
+  .version('0.8.0');
+```
+
+---
+
 ## Project Status
 
 **Current Phase**: Early Development
 
-Core database auto-generation module is implemented. CLI interface and additional features are in planning.
+Core features in progress. CLI foundation established, database auto-generation and ERD schema generation are under active development.
 
 ## Getting Started
 
@@ -215,6 +265,9 @@ npm run dev
 
 ```
 tinker-js/
+├── commander/              # CLI implementation
+│   └── tinker.js           # Main CLI entry point (Commander.js)
+│
 ├── tinker/                 # Frontend - Nuxt 3 application (template)
 │   ├── components/         # Vue 3 reusable components
 │   ├── pages/              # Application pages/routes
@@ -237,21 +290,19 @@ tinker-js/
 │   ├── helper/             # Utility helpers
 │   └── index.mjs           # Express server entry point
 │
-├── bin/                    # CLI entry points (planned)
-├── lib/                    # Core CLI modules (planned)
 ├── package.json
 └── README.md
 ```
 
 ## Roadmap
 
-- [ ] CLI foundation and command structure
-- [ ] Project initialization wizard
-- [ ] Template system implementation
-- [ ] Code generation engine
-- [x] **Database auto-generation** - Dynamic schema-less CRUD module
-- [x] **ERD schema generation** - JSON-based typed schema with seed data
-- [x] **API auto-generation** - REST endpoints with dynamic models
+- [x] **CLI foundation** - Commander.js setup with `generate` and `createdb` commands
+- [x] **Template system** - Project scaffolding from Git repository
+- [ ] **Database auto-generation** - Dynamic schema-less CRUD module *(in progress)*
+- [ ] **ERD schema generation** - JSON-based typed schema with seed data *(in progress)*
+- [ ] **API auto-generation** - REST endpoints with dynamic models *(in progress)*
+- [ ] Project initialization wizard (interactive prompts)
+- [ ] Additional code generators (components, models, routes)
 - [ ] Authentication module
 - [ ] Deployment integrations
 - [ ] Plugin architecture
