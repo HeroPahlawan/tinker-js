@@ -1,5 +1,7 @@
 # Tinker-JS
 
+<img width="1860" height="582" alt="Tinker" src="https://github.com/user-attachments/assets/aba1c992-13ca-4a15-9c98-052900b6bcf6" />
+
 A Node.js CLI-based No-Code / Low-Code solution for rapid application development.
 
 ## Overview
