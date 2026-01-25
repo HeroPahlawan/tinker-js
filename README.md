@@ -16,6 +16,7 @@ Tinker-JS aims to democratize application development by providing:
 - **Template-Based Scaffolding** - Pre-built templates for common application patterns
 - **Interactive CLI Wizards** - Step-by-step guided setup for complex configurations
 - **Plugin Architecture** - Extensible system for adding custom functionality
+- **AI Agent Extended Features** - Tell AI agent what application you want to buid, and AI will generate the app from Scratch
 
 ## Planned Features
 
@@ -34,12 +35,9 @@ Tinker-JS aims to democratize application development by providing:
 - **Web Applications** - Full-stack web apps with frontend and backend
 - **REST APIs** - Backend API services with auto-generated documentation
 - **CRUD Applications** - Data-driven apps with automatic CRUD operations
-- **E-commerce** - Online store templates with inventory and checkout
+- **Standarize Application** - Build apps with Best Practice standards
 
 ### No-Code Capabilities
-
-- Visual schema builder for database models
-- Drag-and-drop UI component configuration
 - Auto-generated API endpoints from data models
 - Built-in authentication and authorization
 - Role-based access control configuration
