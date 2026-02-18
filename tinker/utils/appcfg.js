@@ -1,6 +1,6 @@
 const config = {
   appName: 'Tinker',
-  apiUrl: 'http://localhost:3001',
+  apiUrl: 'http://localhost:5001',
   //fileUrl: 'https://wheybhwfga.execute-api.ap-southeast-3.amazonaws.com/dev/inshopper-storage/',
   realm: '350pr3a1m',
   menu: [

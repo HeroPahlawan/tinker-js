@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'inshopper_api',
+      name: 'tinker_api',
       port: '5001',
       exec_mode: 'cluster',
       instances: 'max',

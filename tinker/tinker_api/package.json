@@ -1,4 +1,5 @@
 {
+	"name": "tinker-api",
 	"scripts": {
 		"dev": "nodemon index.mjs"
 	},
