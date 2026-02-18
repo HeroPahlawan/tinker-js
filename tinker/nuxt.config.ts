@@ -10,13 +10,7 @@ export default defineNuxtConfig({
     var: 'values',
     // server-side + client-side
     public: {
-<<<<<<< HEAD
       apiUrl: 'http://localhost:3001/',
-      APP_NAME: process.env.APP_NAME,
-=======
-      apiUrl: 'https://inshopperapi.ias.id',
-      //apiUrl: 'http://localhost:3001/',
->>>>>>> 2f1a13d40c318c734983f9a6b6598965e9d3e940
     }
   },
   build: {

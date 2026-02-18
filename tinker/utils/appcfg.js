@@ -1,13 +1,7 @@
 const config = {
-<<<<<<< HEAD
-  appName: 'FaciGuardHSEQ',
-  //apiUrl: 'https://inshopperapi.ias.id',
+  appName: 'Tinker',
   apiUrl: 'http://localhost:3001',
-=======
-  appName: 'InShopper',
-  apiUrl: 'https://inshopperapi.ias.id',
->>>>>>> 2f1a13d40c318c734983f9a6b6598965e9d3e940
-  fileUrl: 'https://wheybhwfga.execute-api.ap-southeast-3.amazonaws.com/dev/inshopper-storage/',
+  //fileUrl: 'https://wheybhwfga.execute-api.ap-southeast-3.amazonaws.com/dev/inshopper-storage/',
   realm: '350pr3a1m',
   menu: [
     { name: 'Home', icon: 'fa-solid fa-house', link: '/', submenu: [] },

@@ -55,17 +55,11 @@
     data-te-sidenav-accordion="true">
     <ul class="relative m-0 list-none px-[0.2rem]" data-te-sidenav-menu-ref>
       <li class="relative my-2">
-<<<<<<< HEAD
         <div class="flex align-middle mb-3">
             <div class="p-2">
               <img src="/img/Injourney-Aviation-Services-icon.png" alt="Description of image" width="30px" height="auto">
             </div>
             <h1 class="text-xl font-bold p-2 ">{{ config.public.APP_NAME }}</h1>
-=======
-        <div class="flex items-center justify-center mb-3 px-2">
-          <img src="/img/Inshopper.png" alt="InShopper Logo" class="h-10 w-auto" />
-          <h1 class="text-lg font-bold pl-2">InShopper</h1>
->>>>>>> 2f1a13d40c318c734983f9a6b6598965e9d3e940
         </div>
       </li>
 
