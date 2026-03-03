@@ -21,7 +21,7 @@ program.command('generate')
   .description('Generate a new project from the Tinker template')
   .argument('<projectName>', 'Name of the project to create')
   .action((projectName) => {
-    const repoUrl    = 'https://github.com/aslamdoctor/nuxt-with-express.git';
+    const repoUrl    = 'https://github.com/HeroPahlawan/tinker-js-template-source.git';
     const tempDir    = path.join(os.tmpdir(), projectName);
     const targetDir  = path.join(process.env.USERPROFILE || os.homedir(), 'Documents', projectName);
 
