@@ -17,6 +17,6 @@ export default defineEventHandler(async (event) => {
     let res = req.data;
     return res;
   } catch (error) {
-    return {status:{code:500,message:error}};
+    return {status:{code:500,message:error.message || 'Connection error'}};
   }
 })

@@ -7,6 +7,12 @@ export default (app) => {
   app.post("/main/login", async (req, res)=>{
     let data = req.body;
     let d = await crud.getAll(collection,{username:data.username});
+
+    // Surface any internal error from crud instead of hiding it as "Username not found"
+    if(d.status.code === 500){
+      return res.send({status:{code:500, message: d.status.message}});
+    }
+
     let resp;
     if(d.data.totalDocs == 1){
       let user = d.data.docs[0];

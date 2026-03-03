@@ -1,213 +1,362 @@
 <script setup>
-  import { navTitle } from "~/stores/mystore";
-  const nTitle = navTitle();
+  import { navTitle } from '~/stores/mystore';
+  const nTitle  = navTitle();
+  const sidebar = useState('tinker_sidebar', () => true);
 </script>
 
 <template>
-  <nav
-    class="flex-no-wrap relative flex w-full items-center justify-between bg-[#FBFBFB] dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start py-2">
-    <div class="flex w-full flex-wrap items-center justify-between px-3">
-      <!-- Hamburger button for mobile view -->
-      <button
-        class="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
-        type="button"
-        data-te-sidenav-toggle-ref
-        data-te-target="#sidenav"
-        aria-controls="sidenav"
-        aria-haspopup="true">
-        <!-- Hamburger icon -->
-        <span class="[&>svg]:w-7">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="h-7 w-7">
-            <path
-              fill-rule="evenodd"
-              d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-              clip-rule="evenodd" />
-          </svg>
-        </span>
+  <!-- Top navbar -->
+  <header class="tk-navbar">
+
+    <!-- Left: hamburger + page title -->
+    <div class="tk-navbar-left">
+      <button class="tk-hamburger" @click="sidebar = !sidebar" aria-label="Toggle menu">
+        <span class="tk-ham-line"/>
+        <span class="tk-ham-line tk-ham-line--mid"/>
+        <span class="tk-ham-line"/>
+      </button>
+      <h1 class="tk-page-title">{{ nTitle.name }}</h1>
+    </div>
+
+    <!-- Right: action buttons + user dropdown -->
+    <div class="tk-navbar-right">
+
+      <!-- Reload local data -->
+      <button class="tk-action-btn" @click="reloadLocalData" title="Reload master data">
+        <i class="fa-solid fa-rotate-right"/>
       </button>
 
-      <!-- Collapsible navigation container -->
-      <div
-        class="!visible hidden flex-grow basis-[100%] items-center lg:!flex lg:basis-auto" style="padding-left: 256px;"
-        id="navbarSupportedContent1"
-        data-te-collapse-item>
-        <span class="text-lg font-bold">{{ nTitle.name }}</span>
-      </div>
+      <!-- User menu -->
+      <div class="tk-user-wrap" v-click-outside="() => userOpen = false">
+        <button class="tk-user-btn" @click="userOpen = !userOpen">
+          <span class="tk-user-avatar">
+            <i class="fa-solid fa-user"/>
+          </span>
+          <span class="tk-user-name">{{ sess.name }}</span>
+          <i :class="['fa-solid fa-angle-down tk-user-chevron', userOpen && 'tk-user-chevron--open']"/>
+        </button>
 
-      <!-- Right elements -->
-      <div class="relative flex items-center">
-        <div
-          class="relative"
-          data-te-dropdown-ref
-          data-te-dropdown-alignment="end">
-          <!-- First dropdown trigger -->
-          <a
-            class="hidden-arrow mr-4 flex items-center text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-            href="#"
-            id="userdropdown"
-            role="button"
-            data-te-dropdown-toggle-ref
-            aria-expanded="false">
-            <!-- Dropdown trigger icon -->
-            <span class="[&>svg]:w-5">
-              <i class="fa-solid fa-database fa-lg"></i>
-            </span>
-            <span class="ml-2">Local Data</span>
-          </a>
-          <ul
-            class="absolute z-40 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
-            aria-labelledby="userdropdown"
-            data-te-dropdown-menu-ref>
-            <li>
-              <a
-                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                data-te-dropdown-item-ref
-                href="#"
-                @click="reloadLocalData"
-              >
-                <i class="fa-solid fa-rotate-right mr-2"></i>
-                Reload data
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- User -->
-      <div class="relative flex items-center">
-        <div
-          class="relative"
-          data-te-dropdown-ref
-          data-te-dropdown-alignment="end">
-          <!-- First dropdown trigger -->
-          <a
-            class="hidden-arrow mr-4 flex items-center text-neutral-600 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-            href="#"
-            id="userdropdown"
-            role="button"
-            data-te-dropdown-toggle-ref
-            aria-expanded="false">
-            <!-- Dropdown trigger icon -->
-            <span class="[&>svg]:w-5">
-              <i class="fa-solid fa-circle-user fa-lg"></i>
-            </span>
-            <span class="ml-2">{{ sess.name }}</span>
-          </a>
-          <ul
-            class="absolute z-40 float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
-            aria-labelledby="userdropdown"
-            data-te-dropdown-menu-ref>
-            <li>
-              <a
-                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                data-te-dropdown-item-ref
-                href="#"
-                @click="chgpass"
-              >
-                <i class="fa-solid fa-key mr-2"></i>
-                Change Password
-              </a>
-            </li>
-            <li>
-              <a
-                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                data-te-dropdown-item-ref
-                href="#"
-                @click="logout"
-              >
-                <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>
-                Logout
-              </a>
-            </li>
-          </ul>
-        </div>
+        <Transition name="tk-drop">
+          <div v-if="userOpen" class="tk-dropdown">
+            <div class="tk-dropdown-header">
+              <p class="tk-dh-name">{{ sess.name }}</p>
+              <p class="tk-dh-role">{{ sess.role || 'User' }}</p>
+            </div>
+            <div class="tk-dropdown-divider"/>
+            <button class="tk-dropdown-item" @click="openChgPass">
+              <i class="fa-solid fa-key tk-ddi-icon"/>
+              Change Password
+            </button>
+            <button class="tk-dropdown-item tk-dropdown-item--danger" @click="logout">
+              <i class="fa-solid fa-arrow-right-from-bracket tk-ddi-icon"/>
+              Sign out
+            </button>
+          </div>
+        </Transition>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <div id="alert-wrapper" class="fixed z-50 top-0 right-0 mt-5 mx-5 flex flex-col max-w-lg"></div>
+  <!-- Global overlays (kept for compatibility with loading() / alert helpers) -->
+  <div id="alert-wrapper" class="fixed z-[9999] top-4 right-4 flex flex-col gap-2 max-w-sm pointer-events-none"/>
 
-  <div id="loading-overlay" style="display: none;" class="w-full h-full fixed top-0 left-0 bg-neutral-950 opacity-75 z-[2000]">
-    <div class="flex justify-center items-center mt-[50vh]">
-      <i class="fa-solid fa-circle-notch fa-2xl animate-spin text-white"></i>
-      <span id="loading-text" class="ml-5 text-xl text-white font-bold">Loading ...</span>
+  <div id="loading-overlay" style="display:none"
+    class="fixed inset-0 bg-slate-950/80 z-[2000] flex items-center justify-center backdrop-blur-sm">
+    <div class="flex items-center gap-3 bg-white/10 border border-white/15 rounded-2xl px-7 py-5 shadow-2xl">
+      <i class="fa-solid fa-circle-notch fa-xl animate-spin text-white"/>
+      <span id="loading-text" class="text-white font-semibold text-base">Loading…</span>
     </div>
   </div>
 
-  <Modal id="modalPass" title="Change Password">
-    <form id="form-pass">
-      <Input type="password" name="oldpass" id="oldpass" label="Enter Old Password"/>
-      <Input type="password" name="newpass" id="newpass" label="Enter New Pass"/>
-      <Input type="password" name="repass" id="repass" label="Confirm New Pass"/>
-      <p class="text-red-500">{{ error }}</p>
-      <div class="flex justify-end">
-        <button type="button" class="btn-success" @click="submitPass">Submit Change</button> <br>
+  <!-- Change password modal -->
+  <Modal ref="modalPass" title="Change Password">
+    <form id="form-pass" class="flex flex-col gap-3">
+      <Input type="password" name="oldpass" id="oldpass" label="Current Password"/>
+      <Input type="password" name="newpass" id="newpass" label="New Password"/>
+      <Input type="password" name="repass"  id="repass"  label="Confirm New Password"/>
+      <p v-if="error" class="text-sm text-red-500 flex items-center gap-1.5">
+        <i class="fa-solid fa-circle-exclamation"/>{{ error }}
+      </p>
+      <div class="flex justify-end pt-1">
+        <button type="button" class="btn-success" @click="submitPass">Save Changes</button>
       </div>
     </form>
   </Modal>
-
 </template>
 
 <script>
   export default {
-    data:()=>({
-      alert:'', sess:{}, modalPass:'', error:''
+    // Simple click-outside directive for closing dropdowns
+    directives: {
+      'click-outside': {
+        mounted(el, binding) {
+          el._clickOutsideHandler = (e) => { if (!el.contains(e.target)) binding.value(e); };
+          document.addEventListener('click', el._clickOutsideHandler, true);
+        },
+        unmounted(el) {
+          document.removeEventListener('click', el._clickOutsideHandler, true);
+        }
+      }
+    },
+    data: () => ({
+      sess:     {},
+      userOpen: false,
+      error:    '',
     }),
-    async mounted(){
-      const { Modal,initTE } = await import('tw-elements');
-      initTE({ Modal });
-      this.modalPass = new Modal(document.getElementById('modalPass'), {});
-      this.alert = await alert();
-
-      this.sess = getSess()
+    mounted() {
+      this.sess = getSess() || {};
       this.loadLocalData();
     },
-    methods:{
-      async loadLocalData(){
-        let lx = localStorage.getItem('xdump');
-        if(lx == null){
-          await this.masterData();
-        }
+    methods: {
+      async loadLocalData() {
+        if (localStorage.getItem('xdump') == null) await this.masterData();
       },
-      async reloadLocalData(){
+      async reloadLocalData() {
         await this.masterData();
       },
-      async masterData(){
-        loading(true, 'Downloading master data ...');
-        let prepare = appcfg.localData;
-        let obj = {};
-        for(const [k,v] of Object.entries(prepare)){
-          let res = await call.get(v.url);
-          obj[k] = res.data.docs;
+      async masterData() {
+        loading(true, 'Downloading master data…');
+        const obj = {};
+        for (const [k, v] of Object.entries(appcfg.localData)) {
+          const res = await call.get(v.url);
+          obj[k]   = res.data.docs;
         }
         localStorage.setItem('xdump', JSON.stringify(obj));
         loading(false);
       },
-      chgpass(){
-        this.modalPass.toggle();
+      openChgPass() {
+        this.userOpen = false;
+        this.error    = '';
+        this.$refs.modalPass?.toggle();
       },
-      async submitPass(){
+      async submitPass() {
         try {
-          let obj = dataForm('form-pass');
-          obj._id = getSess()._id;
-          let res = await call.post(`/api/setting/chgpass`, obj);
-          if(res.status.code == 200){
-            this.modalPass.toggle();
-            delSess(); navigateTo('/main/login')
-          }else{
+          const obj = dataForm('form-pass');
+          obj._id   = getSess()._id;
+          const res = await call.post('/api/setting/chgpass', obj);
+          if (res.status.code === 200) {
+            this.$refs.modalPass?.toggle();
+            delSess();
+            navigateTo('/main/login');
+          } else {
             this.error = res.status.message;
           }
-        } catch (error) {
-          this.alert.error(error.message);
+        } catch (e) {
+          this.error = e.message;
         }
       },
-      logout(){
-        delSess(); location.href = '/main/login';
+      logout() {
+        delSess();
+        location.href = '/main/login';
       }
     }
   }
 </script>
+
+<style scoped>
+/*
+ * ── THEME TOKENS ──────────────────────────────────────────────────────────────
+ * Override in your global CSS to retheme without touching this file:
+ *
+ *   .tk-navbar { --n-accent: #6366f1; }
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+.tk-navbar {
+  --n-h:        60px;
+  --n-bg:       #ffffff;
+  --n-border:   #f1f5f9;
+  --n-text:     #1e293b;
+  --n-muted:    #64748b;
+  --n-accent:   #04b0c0;
+  --n-hover-bg: #f8fafc;
+  --n-ring:     rgba(4, 176, 192, 0.18);
+}
+
+/* ── Shell ── */
+.tk-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  height: var(--n-h);
+  background: var(--n-bg);
+  border-bottom: 1px solid var(--n-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Left ── */
+.tk-navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Animated hamburger */
+.tk-hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4.5px;
+  width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.14s;
+}
+.tk-hamburger:hover { background: var(--n-hover-bg); }
+
+.tk-ham-line {
+  display: block;
+  height: 1.75px;
+  width: 100%;
+  background: var(--n-muted);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.22s ease, opacity 0.22s ease, width 0.22s ease;
+}
+.tk-ham-line--mid { width: 75%; }
+
+
+.tk-page-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--n-text);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+/* ── Right ── */
+.tk-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Icon-only action buttons */
+.tk-action-btn {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--n-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.14s, color 0.14s;
+}
+.tk-action-btn:hover { background: var(--n-hover-bg); color: var(--n-text); }
+
+/* ── User pill button ── */
+.tk-user-wrap { position: relative; }
+
+.tk-user-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 5px;
+  border: 1px solid var(--n-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--n-text);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.14s, border-color 0.14s, box-shadow 0.14s;
+}
+.tk-user-btn:hover {
+  background: var(--n-hover-bg);
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 3px var(--n-ring);
+}
+
+.tk-user-avatar {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--n-accent) 0%, #045db5 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.tk-user-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 480px) { .tk-user-name { display: none; } }
+
+.tk-user-chevron {
+  font-size: 11px;
+  color: var(--n-muted);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.tk-user-chevron--open { transform: rotate(180deg); }
+
+/* ── Dropdown panel ── */
+.tk-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;
+  z-index: 1000;
+}
+.tk-dropdown-header { padding: 12px 14px 10px; }
+.tk-dh-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 2px;
+}
+.tk-dh-role {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0;
+}
+.tk-dropdown-divider { height: 1px; background: #f1f5f9; }
+
+.tk-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 14px;
+  border: none;
+  background: transparent;
+  color: #374151;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+}
+.tk-dropdown-item:hover                { background: #f8fafc; }
+.tk-dropdown-item--danger              { color: #ef4444; }
+.tk-dropdown-item--danger:hover        { background: #fef2f2; }
+.tk-ddi-icon { width: 14px; text-align: center; opacity: 0.7; }
+
+/* ── Dropdown animation ── */
+.tk-drop-enter-active { transition: opacity 0.15s ease, transform 0.15s ease; }
+.tk-drop-leave-active { transition: opacity 0.11s ease, transform 0.11s ease; }
+.tk-drop-enter-from   { opacity: 0; transform: translateY(-6px) scale(0.97); }
+.tk-drop-leave-to     { opacity: 0; transform: translateY(-4px) scale(0.97); }
+</style>

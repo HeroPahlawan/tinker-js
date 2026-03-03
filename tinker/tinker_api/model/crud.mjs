@@ -49,12 +49,14 @@ const crud = {
       delete param.limit;
       delete param.sort;
       for (const [k, v] of Object.entries(param)) {
-        if (v.startsWith('*') && v.endsWith('*')) {
-          param[k] = new RegExp(v.replace(/\*/g, ''));
-        } else if (v.startsWith('*')) {
-          param[k] = new RegExp(v.replace('*', '') + '$');
-        } else if (v.endsWith('*')) {
-          param[k] = new RegExp('^' + v.replace('*', ''));
+        if (typeof v === 'string') {
+          if (v.startsWith('*') && v.endsWith('*')) {
+            param[k] = new RegExp(v.replace(/\*/g, ''));
+          } else if (v.startsWith('*')) {
+            param[k] = new RegExp(v.replace('*', '') + '$');
+          } else if (v.endsWith('*')) {
+            param[k] = new RegExp('^' + v.replace('*', ''));
+          }
         }
       }
 

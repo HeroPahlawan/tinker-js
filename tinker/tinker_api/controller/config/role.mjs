@@ -4,7 +4,7 @@ import auth from "../../helper/auth_helper.mjs";
 const route = Router();
 
 export default (app) => {
-  app.use('/config/role', route);
+  app.use('/config/role/', route);
   const collection = 'c_role';
 
   /* Get One */

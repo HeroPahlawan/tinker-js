@@ -1,61 +1,46 @@
 const config = {
   appName: 'Tinker',
-  apiUrl: 'http://localhost:5001',
+  apiUrl: 'http://localhost:3001',
   //fileUrl: 'https://wheybhwfga.execute-api.ap-southeast-3.amazonaws.com/dev/inshopper-storage/',
   realm: '350pr3a1m',
   menu: [
     { name: 'Home', icon: 'fa-solid fa-house', link: '/', submenu: [] },
-    { name: 'Transaction', icon: 'fa-solid fa-shopping-cart', link: '', submenu: [
-      {subname: 'Transactions List', sublink: '/transaction/purchases'},
-      {subname: 'Inventory List', sublink: '/transaction/inventory'},
-    ]},
-    // { name: 'Report (Beta)', icon: 'fa-solid fa-calculator', link: '', submenu: [
-    //   {subname: 'Earnings', subicon: 'fa-regular fa-circle', sublink: '/report/earnings/'},
-    // ]},
     { name: 'Config', icon: 'fa-solid fa-gear', link: '', submenu: [
-      {subname: 'User', subicon: 'fa-regular fa-user', sublink: '/config/user/'},
-      {subname: 'Role', subicon: 'fa-regular fa-user', sublink: '/config/role/'},
-    ]},
+      {subname: 'User', subicon: 'fa-regular fa-user', sublink: '/config/user'},
+      {subname: 'Role', subicon: 'fa-regular fa-folder', sublink: '/config/role'},
+      // [TINKER:SUBMENU:config]
+    ] },
     { name: 'Master', icon: 'fa-solid fa-folder', link: '', submenu: [
-      {subname: 'Branches', subicon: 'fa-regular fa-circle', sublink: '/master/branches/'},
-      {subname: 'Tenant', subicon: 'fa-regular fa-circle', sublink: '/master/company/'},
-      {subname: 'Promotion', subicon: 'fa-regular fa-circle', sublink: '/master/promotions/'},
-      {subname: 'Categories', subicon: 'fa-regular fa-circle', sublink: '/master/categories/'},
-    ]},
+      {subname: 'Branch', subicon: 'fa-regular fa-circle', sublink: '/master/branch/'},
+      // [TINKER:SUBMENU:master]
+    ] },
+    // [TINKER:MENU:END]
   ],
   roleMenu: [
     { name: 'Home', link: '/', submenu: [] },
-    { name: 'Transaction', link: '', submenu: [
-      {subname: 'Transactions List', sublink: '/transaction/purchases'},
-      {subname: 'Inventory List', sublink: '/transaction/inventory'},
-    ]},
     // { name: 'Report', link: '', submenu: [
     //   {subname: 'Earnings', sublink: '/report/earnings/'},
+    //   // [TINKER:ROLEMENU:report]
     // ]},
     { name: 'Config', link: '', submenu: [
       {subname: 'User', sublink: '/config/user'},
       {subname: 'Role', sublink: '/config/role'},
+      // [TINKER:ROLEMENU:config]
     ]},
     { name: 'Master', link: '', submenu: [
-      {subname: 'Branches', sublink: '/master/branches/'},
-      {subname: 'Tenant', sublink: '/master/company/'},
-      {subname: 'Promotions', sublink: '/master/promotions/'},
-      {subname: 'Categories', sublink: '/master/categories/'},
+      {subname: 'Branch', sublink: '/master/branch/'},
+      // [TINKER:ROLEMENU:master]
     ]},
+    // [TINKER:ROLEMENU:END]
   ],
   freeMenu: ['chgpass'],
   freeLink: [
-    'main/login',
-    'transaction/product'
+    'main/login'
   ],
   fltype: [{value:'Dom',label:'Domestic'},{value:'Int',label:'International'}],
   localData: {
-    role: { url:'/api/config/role/', key:'code', value:'name' },
-    employee: { url:'/api/master/employee/', key:'no_ktp', value:'name' },
-    branch: { url:'/api/master/branches/', key:'code', value:'name' },
-    company: { url:'/api/master/company/', key:'_id', value:'name' },
-    categories: { url:'/api/master/categories/', key:'_id', value:'category' },
-    subcategories: { url:'/api/master/categories/', key:'_id', value:'subcategory' },
+    role: { url:'/api/config/role', key:'code', value:'name' },
+    branch: { url:'/api/master/branch/', key:'code', value:'name' }
   },
   locked: [{ value:'1', label:'Open' },{ value:'2', label:'Processed' },{ value:'2', label:'Done' }],
   paytipe: [{ value:'1', label:'EDC' },{ value:'2', label:'Cash' },{ value:'3', label:'Virtual Account' },{ value:'4', label:'QRIS' }],

@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 const route = Router();
 
 export default (app) => {
-  app.use('/config/user', route);
+  app.use('/config/user/', route);
   const collection = 'c_user';
 
   /* Get One */

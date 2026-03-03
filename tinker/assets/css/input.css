@@ -81,16 +81,10 @@ input[readonly]{
   @apply inline-block rounded bg-shadow px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-shadow focus:bg-shadow focus:outline-none focus:ring-0 active:bg-shadow;
 }
 
-/* alert */
-.alert-success {
-  @apply inline-flex mt-1 items-center px-6 py-3 shadow-xl rounded-lg bg-success font-medium text-white;
-}
-.alert-danger {
-  @apply inline-flex mt-1 items-center px-6 py-3 shadow-xl rounded-lg bg-danger font-medium text-white;
-}
-.alert-info {
-  @apply inline-flex mt-1 items-center px-6 py-3 shadow-xl rounded-lg bg-info font-medium text-white;
-}
+/* alert — legacy classes kept for backward-compat; new toasts use alert.js */
+.alert-success { @apply inline-flex mt-1 items-center px-4 py-2.5 rounded-lg bg-green-500 font-medium text-white text-sm; }
+.alert-danger  { @apply inline-flex mt-1 items-center px-4 py-2.5 rounded-lg bg-red-500   font-medium text-white text-sm; }
+.alert-info    { @apply inline-flex mt-1 items-center px-4 py-2.5 rounded-lg bg-cyan-500  font-medium text-white text-sm; }
 
 /* card */
 .card {

@@ -3,12 +3,31 @@
     "structure": {
       "username": "String",
       "password": "String",
+      "role": "String",
       "name":"String",
       "email":"String"
     },
     "data": [
-      { "username": "root", "password": "$2a$12$AnHFd4XjlZTbCe4nSZqq2uNl5qO9XmDZDNXuvVoR9PKViZiEoZl7u", "name": "SuperUser", "email": "it@ias.id" }
+      { "username": "root", "password": "mypassword!", "role":"SUP", "name": "SuperUser", "email": "it@ias.id" }
     ]
+  },
+  "c_role": {
+    "structure": {
+      "code": "String",
+      "name": "String",
+      "option": "Object"
+    },
+    "data": [{
+        "code": "SUP",
+        "name": "Super Admin",
+        "option": {
+        "/": "W",
+        "/master/branch/": "W",
+        "/master/account/": "W",
+        "/config/user": "W",
+        "/config/role": "W"
+        }
+    }]
   },
   "m_branch": {
     "structure": {

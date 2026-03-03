@@ -2,14 +2,15 @@ require('dotenv').config();
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // devtools: { enabled: true },
+  ssr: false,
+  devServer: { port: 3000 },
   runtimeConfig: {
-    // value from env
-    APP_NAME: process.env.APP_NAME,
-    MONGODB_URI: process.env.MONGODB_URI,
     // server-side only
+    MONGODB_URI: process.env.MONGODB_URI,
     var: 'values',
-    // server-side + client-side
+    // server-side + client-side (accessible via config.public.*)
     public: {
+      APP_NAME: process.env.APP_NAME || 'Tinker',
       apiUrl: 'http://localhost:3001/',
     }
   },
@@ -18,15 +19,15 @@ export default defineNuxtConfig({
   },
   //plugins: [
     // '~/plugins/vue-json-excel.js',
-    // '~/plugins/filters.js', 
+    // '~/plugins/filters.js',
     //{ src: 'plugins/vue-tags-input.js', ssr: false, mode: 'client' }
   //],
-  vue: {  
+  vue: {
     compilerOptions: {
       isCustomElement: (tag) => ['downloadexcel'].includes(tag),
     },
   },
-  modules: ['@pinia/nuxt', 'vue3-carousel-nuxt'],
+  modules: ['@pinia/nuxt'],
   css: [`assets/css/main.css`],
   postcss: {
     plugins: {
